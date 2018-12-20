@@ -250,6 +250,8 @@ function createSocket(address, name) {
     }
 }
 
+// getUserMedia(camera) success callback
+
 function umSuccess(stream) {
     if (vid.mozCaptureStream) {
         vid.mozSrcObject = stream;
@@ -260,7 +262,7 @@ function umSuccess(stream) {
     }
     vid.play();
     vidReady = true;
-    sendFrameLoop();
+    sendFrameLoop();  // don't think this actually does anything since it will just return if NULL ping/pong has not completed
 }
 
 function addPersonCallback(el) {
