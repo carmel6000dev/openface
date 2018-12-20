@@ -145,7 +145,7 @@ function getDataURLFromRGB(rgb) {
 }
 
 // compute stats for recent response times
-// NULL messages are sent back and forth to measure this (seems like unrestrained ping/pong... isn't this wastefull?)
+// after socket open, defaultNumNulls NULL messages are sent back and forth to measure this 
 
 function updateRTT() {
     var diffs = [];
@@ -180,7 +180,8 @@ function createSocket(address, name) {
         receivedTimes = [];
         tok = defaultTok;
         numNulls = 0
-
+        
+        // start the ping/pong of NULL messages for meauring RTT
         socket.send(JSON.stringify({'type': 'NULL'}));
         sentTimes.push(new Date());
     }
