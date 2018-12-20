@@ -145,6 +145,7 @@ function getDataURLFromRGB(rgb) {
 }
 
 // compute stats for recent response times
+// NULL messages are sent back and forth to measure this (seems like unrestrained ping/pong... isn't this wastefull?)
 
 function updateRTT() {
     var diffs = [];
@@ -156,6 +157,8 @@ function updateRTT() {
             jStat.stdev(diffs).toFixed(2) + ")"
     );
 }
+
+// send all the state info (people, images, training) to the server
 
 function sendState() {
     var msg = {
