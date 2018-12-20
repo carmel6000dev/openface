@@ -16,6 +16,8 @@ limitations under the License.
 Fix 1
 */
 
+// some polyfills
+
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) ?
@@ -29,7 +31,8 @@ window.URL = window.URL ||
     window.msURL ||
     window.mozURL;
 
-// http://stackoverflow.com/questions/6524288
+// event for catching enter in a text box (http://stackoverflow.com/questions/6524288)
+
 $.fn.pressEnter = function(fn) {
 
     return this.each(function() {
@@ -52,6 +55,8 @@ function registerHbarsHelpers() {
         return options.inverse(this);
     });
 }
+
+// every 250 milli, send a camera frame if tok > 0
 
 function sendFrameLoop() {
     if (socket == null || socket.readyState != socket.OPEN ||
@@ -80,6 +85,7 @@ function sendFrameLoop() {
     setTimeout(function() {requestAnimFrame(sendFrameLoop)}, 250);
 }
 
+// compute/display how many images we have for each known person
 
 function getPeopleInfoHtml() {
     var info = {'-1': 0};
@@ -102,6 +108,8 @@ function getPeopleInfoHtml() {
     return h;
 }
 
+// update HTML to refelect any changes in people or images
+
 function redrawPeople() {
     var context = {people: people, images: images};
     $("#peopleTable").html(peopleTableTmpl(context));
@@ -111,6 +119,8 @@ function redrawPeople() {
 
     $("#peopleInfo").html(getPeopleInfoHtml());
 }
+
+// convert RGB to ABGR and return as a PNG data URL
 
 function getDataURLFromRGB(rgb) {
     var rgbLen = rgb.length;
@@ -133,6 +143,8 @@ function getDataURLFromRGB(rgb) {
 
     return canvas.toDataURL("image/png");
 }
+
+// compute stats for recent response times
 
 function updateRTT() {
     var diffs = [];
