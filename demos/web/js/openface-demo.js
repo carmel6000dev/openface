@@ -188,19 +188,19 @@ function createSocket(address, name) {
     socket.onmessage = function(e) {
         console.log(e);
         j = JSON.parse(e.data)
-        if (j.type == "NULL") {
+        if (j.type == "NULL") { // are we still doing RTT measurement
             receivedTimes.push(new Date());
             numNulls++;
-            if (numNulls == defaultNumNulls) {
+            if (numNulls == defaultNumNulls) {  // finished with RTT measurement?
                 updateRTT();
                 sendState();
-                sendFrameLoop();
+                sendFrameLoop(); // start the loop
             } else {
                 socket.send(JSON.stringify({'type': 'NULL'}));
                 sentTimes.push(new Date());
             }
         } else if (j.type == "PROCESSED") {
-            tok++;
+            tok++;  // increment number of camera samples to be sent to server
         } else if (j.type == "NEW_IMAGE") {
             images.push({
                 hash: j.hash,
